@@ -24,7 +24,12 @@ class Settings(BaseSettings):
     @classmethod
     def parse_origins(cls, v):
         if isinstance(v, str):
-            return json.loads(v)
+            v = v.strip()
+            # Accept JSON array: '["http://a", "http://b"]'
+            if v.startswith("["):
+                return json.loads(v)
+            # Accept comma-separated: 'http://a,http://b'
+            return [o.strip() for o in v.split(",") if o.strip()]
         return v
 
     @model_validator(mode="after")
