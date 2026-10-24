@@ -1,10 +1,11 @@
 import reflex as rx
+from reflex_base.plugins.sitemap import SitemapPlugin
 
 config = rx.Config(
     app_name="frontend",
-    api_url="http://localhost:8001",
-    frontend_port=3000,
-    backend_port=8000,
-    env=rx.Env.DEV,
-    tailwind=None,
+    # In prod mode Reflex serves frontend + backend on the same port.
+    # Railway exposes a single port; we use 8080 as the unified port.
+    backend_port=8080,
+    frontend_port=8080,
+    plugins=[SitemapPlugin()],
 )

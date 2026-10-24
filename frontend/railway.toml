@@ -3,7 +3,7 @@ builder = "dockerfile"
 dockerfilePath = "Dockerfile.frontend"
 
 [deploy]
-startCommand = "reflex run --env prod --backend-host 0.0.0.0 --backend-port 8000 --frontend-port 3000"
+startCommand = "reflex run --env prod --backend-host 0.0.0.0 --backend-port 8080 --frontend-port 8080"
 healthcheckPath = "/"
 healthcheckTimeout = 120
 restartPolicyType = "on_failure"

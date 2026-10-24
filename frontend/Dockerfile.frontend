@@ -13,15 +13,17 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --break-system-packages -r requirements.txt 2>/dev/null || \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+# Build the frontend static assets
+RUN reflex export --no-zip 2>/dev/null || true
 
 RUN addgroup --system appuser && adduser --system --ingroup appuser appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 3000 8000
+EXPOSE 8080
 
-CMD ["reflex", "run", "--env", "prod", "--backend-host", "0.0.0.0"]
+CMD ["reflex", "run", "--env", "prod", "--backend-host", "0.0.0.0", "--backend-port", "8080", "--frontend-port", "8080"]
